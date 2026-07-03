@@ -646,18 +646,14 @@
         </div>
     </div>
 
-    <!-- Modal Multipropósito para Playlists (Crear y Agregar) -->
     <div id="modal-playlist" class="modal-playlist-overlay modal-view-hidden">
         <div class="modal-playlist-content">
-            <!-- Título dinámico que cambiará según la acción -->
             <h3 id="modal-titulo">Nueva Lista</h3>
             
-            <!-- Vista 1: Añadir canción a una lista existente o elegir crear una -->
             <div id="vista-agregar-cancion" class="modal-view-hidden">
                 <p class="text_Albunes text modal-instruction-text">
                     Selecciona una lista para añadir la canción:
                 </p>
-                <!-- Aquí se inyectarán de forma dinámica las listas disponibles con click directo -->
                 <div id="lista-seleccionable-playlists" class="modal-listado-scroll"></div>
                 
                 <hr class="modal-divider">
@@ -666,7 +662,6 @@
                 </button>
             </div>
 
-            <!-- Vista 2: Formulario de escribir el nombre (Idéntico a tu diseño original) -->
             <div id="vista-crear-playlist">
                 <input type="text" id="input-nombre-playlist" placeholder="Nombre de tu lista..." maxlength="30">
             </div>
@@ -680,3 +675,4 @@
 
     <script src="script.js"></script>
 </body>
+</html>

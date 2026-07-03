@@ -1,6 +1,3 @@
-// ==========================================
-// SELECCIÓN DE ELEMENTOS DEL DOM
-// ==========================================
 const audio = document.getElementById('main-audio');
 const btnPlay = document.getElementById('btn-play');
 const btnPrev = document.getElementById('btn-prev');
@@ -9,7 +6,6 @@ const btnShuffle = document.getElementById('btn-shuffle');
 const btnRepeat = document.getElementById('btn-repeat');
 const btnResetFilters = document.getElementById('btn-reset-filters');
 
-// Elementos del Menú de Hamburguesa
 const btnMenu = document.getElementById('btn-menu');
 const sidebarMenu = document.getElementById('sidebar-menu');
 const btnCloseMenu = document.getElementById('btn-close-menu');
@@ -31,7 +27,6 @@ const searchInput = document.querySelector('.search-input');
 const songElements = document.querySelectorAll('.canciones');
 const bgVideo = document.getElementById('bg-video');
 
-// Elementos específicos de Playlists Personalizadas
 const btnCrearPlaylist = document.getElementById('btn-crear-playlist');
 const modalPlaylist = document.getElementById('modal-playlist');
 const btnCancelarPlaylist = document.getElementById('btn-cancelar-playlist');
@@ -39,15 +34,11 @@ const btnGuardarPlaylist = document.getElementById('btn-guardar-playlist');
 const inputNombrePlaylist = document.getElementById('input-nombre-playlist');
 const contenedorPlaylists = document.getElementById('contenedor-playlists');
 
-// Estados del reproductor (Se cargan desde localStorage si existen)
 let isPlaying = false;
 let isShuffleMode = false;
 let repeatState = 0; 
 let misPlaylists = JSON.parse(localStorage.getItem('misPlaylists')) || {};
 
-// ==========================================
-// MAPA DINÁMICO DE PALETAS (INCLUYE HOVERS Y ACTIVOS)
-// ==========================================
 const paletasColores = {
     silksong: {
         '--bg-top-bar': '#0b0d11',
@@ -169,9 +160,6 @@ function aplicarPaleta(paleta) {
     });
 }
 
-// ==========================================
-// INTERACCIONES DEL MENÚ HAMBURGUESA
-// ==========================================
 btnMenu.addEventListener('click', () => {
     sidebarMenu.classList.add('open');
 });
@@ -214,7 +202,6 @@ themeButtons.forEach(btn => {
             aplicarPaleta(paletasColores.recuerdo);
         }
 
-        // PERSISTENCIA DEL TEMA Y VIDEO seleccionado
         localStorage.setItem('temaGuardado', selectedTheme);
         localStorage.setItem('videoGuardado', bgVideo.src);
 
@@ -227,16 +214,12 @@ btnResetTheme.addEventListener('click', () => {
     bgVideo.load();
     aplicarPaleta(paletasColores.silksong);
 
-    // PERSISTENCIA AL RESETEAR
     localStorage.setItem('temaGuardado', 'default');
     localStorage.setItem('videoGuardado', bgVideo.src);
 
     sidebarMenu.classList.remove('open');
 });
 
-// ==========================================
-// FUNCIONES DE CONTROL DE PISTAS Y FILTROS
-// ==========================================
 function getVisibleTracks() {
     return Array.from(trackElements).filter(track => {
         const isTrackHidden = window.getComputedStyle(track).display === 'none';
@@ -300,7 +283,6 @@ function togglePlay() {
     }
 }
 
-// Loop/Bucle modificado con estado transitorio simple antes del infinito
 function playSong() {
     isPlaying = true;
     btnPlay.innerText = 'pause_circle';
@@ -319,9 +301,6 @@ function pauseSong() {
     audio.pause();
 }
 
-// ==========================================
-// BARRA DE PROGRESO Y CONFIGURACIONES
-// ==========================================
 function updateProgress(e) {
     const { duration, currentTime } = e.srcElement;
     if (!duration) return;
@@ -368,12 +347,10 @@ function resetFilters() {
     inicializarBotonesDeAgregar();
 }
 
-// Clic directo en canciones
 trackElements.forEach(element => {
     element.addEventListener('click', () => loadSong(element));
 });
 
-// Clic en tarjetas de álbumes por defecto (Funciona como filtro)
 albumCards.forEach(card => {
     card.addEventListener('click', () => {
         if (card.classList.contains('playlist-personalizada')) return; 
@@ -402,13 +379,9 @@ albumCards.forEach(card => {
     });
 });
 
-// ==========================================
-// SISTEMA DE PLAYLISTS MULTIPROPÓSITO (PERSISTENTE)
-// ==========================================
 let cancionSeleccionadaParaAgregar = null; 
 let modoModal = 'crear'; 
 
-// Elementos inyectados dinámicamente en el modal
 const modalTitulo = document.getElementById('modal-titulo');
 const vistaCrearPlaylist = document.getElementById('vista-crear-playlist');
 const vistaAgregarCancion = document.getElementById('vista-agregar-cancion');
@@ -476,7 +449,6 @@ function abrirModalEnModoAgregar() {
             if (!misPlaylists[nombreLista].includes(cancionSeleccionadaParaAgregar)) {
                 misPlaylists[nombreLista].push(cancionSeleccionadaParaAgregar);
                 
-                // SALVAR CAMBIOS EN PLAYLIST EXISTENTE
                 localStorage.setItem('misPlaylists', JSON.stringify(misPlaylists));
                 
                 modalPlaylist.style.display = 'none';
@@ -522,7 +494,6 @@ function ejecutarCreacionPlaylist() {
         misPlaylists[nombre] = [];
     }
     
-    // SALVAR NUEVA PLAYLIST EN LOCALSTORAGE
     localStorage.setItem('misPlaylists', JSON.stringify(misPlaylists));
     
     modalPlaylist.style.display = 'none';
@@ -594,9 +565,6 @@ function actualizarTarjetasPlaylists() {
     });
 }
 
-// ==========================================
-// ASIGNACIÓN DE OYENTES DE EVENTOS ASÍNCRONOS
-// ==========================================
 btnPlay.addEventListener('click', togglePlay);
 btnPrev.addEventListener('click', () => changeTrack(-1, false));
 btnNext.addEventListener('click', () => changeTrack(1, true));
@@ -651,13 +619,9 @@ audio.addEventListener('ended', () => {
     }
 });
 
-// ==========================================
-// INICIALIZACIÓN COMPLETA AL CARGAR EL DOM
-// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     inicializarBotonesDeAgregar();
 
-    // 1. Recuperar y restablecer la paleta y video guardados
     const temaGuardado = localStorage.getItem('temaGuardado');
     const videoGuardado = localStorage.getItem('videoGuardado');
     
@@ -672,7 +636,6 @@ document.addEventListener('DOMContentLoaded', () => {
         bgVideo.load();
     }
 
-    // 2. Renderizar las tarjetas de las playlists cargadas desde memoria
     if (Object.keys(misPlaylists).length > 0) {
         actualizarTarjetasPlaylists();
     }
